@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CryptText Reader</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+</head>
+
+
+<body>
+
+    <!-- BACKGROUND GLOW -->
+
+    <div class="background-glow glow-one"></div>
+
+    <div class="background-glow glow-two"></div>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🔐
+            </div>
+
+            <div>
+
+                <h1>CryptText</h1>
+
+                <span>
+                    Secure Text Protection
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="nav-right">
+
+            <div class="security-status">
+
+                <span class="status-dot"></span>
+
+                Encryption Ready
+
+            </div>
+
+
+            <button
+                class="theme-button"
+                id="themeButton"
+                onclick="toggleTheme()">
+
+                🌙
+
+            </button>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-badge">
+            🔒 Secure • Private • Protected
+        </div>
+
+        <h2>
+            Protect Your Text.
+            <span>Keep It Private.</span>
+        </h2>
+
+        <p>
+            Encrypt sensitive information using modern
+            cryptographic algorithms. Protect your text
+            with password-based AES-256-GCM encryption.
+        </p>
+
+    </section>
+
+
+
+    <!-- MAIN WORKSPACE -->
+
+    <main class="workspace">
+
+
+        <!-- INPUT CARD -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-label">
+                        STEP 01
+                    </div>
+
+                    <h3>
+                        Enter Your Text
+                    </h3>
+
+                </div>
+
+
+                <div class="input-icon">
+                    📝
+                </div>
+
+            </div>
+
+
+            <textarea
+                id="inputText"
+                placeholder="Type or paste the text you want to protect..."
+                oninput="updateCharacterCount()"></textarea>
+
+
+            <div class="text-info">
+
+                <span>
+                    Secure your sensitive information
+                </span>
+
+                <span id="characterCount">
+                    0 characters
+                </span>
+
+            </div>
+
+
+
+            <!-- FILE UPLOAD -->
+
+            <div
+                class="upload-area"
+                id="uploadArea">
+
+                <div class="upload-icon">
+                    📁
+                </div>
+
+                <div>
+
+                    <strong>
+                        Upload a text file
+                    </strong>
+
+                    <p>
+                        Supports .txt and .enc files
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="browse-button"
+                    onclick="document.getElementById('fileInput').click()">
+
+                    Browse
+
+                </button>
+
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".txt,.enc"
+                    hidden>
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="password-section">
+
+                <label for="password">
+                    Encryption Password
+                </label>
+
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter a secure password"
+                        oninput="checkPasswordStrength()">
+
+
+                    <button
+                        class="eye-button"
+                        onclick="togglePassword()"
+                        type="button">
+
+                        👁️
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- PASSWORD STRENGTH -->
+
+                <div class="password-strength">
+
+                    <div class="strength-bar">
+
+                        <span id="strengthFill"></span>
+
+                    </div>
+
+                    <span id="strengthText">
+                        Enter a password
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="action-buttons">
+
+                <button
+                    class="primary-button"
+                    onclick="encryptText()">
+
+                    🔐 Encrypt
+
+                </button>
+
+
+                <button
+                    class="secondary-button"
+                    onclick="decryptText()">
+
+                    🔓 Decrypt
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- RESULT CARD -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="section-label">
+                        STEP 02
+                    </div>
+
+                    <h3>
+                        Protected Result
+                    </h3>
+
+                </div>
+
+
+                <div class="input-icon">
+                    🛡️
+                </div>
+
+            </div>
+
+
+            <div class="result-wrapper">
+
+                <textarea
+                    id="resultText"
+                    readonly
+                    placeholder="Your encrypted or decrypted result will appear here..."></textarea>
+
+
+                <div
+                    class="result-overlay"
+                    id="resultOverlay">
+
+                    <div class="result-lock">
+                        🔒
+                    </div>
+
+                    <p>
+                        Your protected result will appear here
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RESULT BUTTONS -->
+
+            <div class="result-actions">
+
+                <button
+                    class="small-button"
+                    onclick="copyResult()">
+
+                    📋 Copy
+
+                </button>
+
+
+                <button
+                    class="small-button"
+                    onclick="downloadResult()">
+
+                    ⬇️ Download
+
+                </button>
+
+
+                <button
+                    class="small-button danger"
+                    onclick="clearAll()">
+
+                    🗑️ Clear
+
+                </button>
+
+            </div>
+
+
+
+            <!-- SECURITY INFORMATION -->
+
+            <div class="security-card">
+
+                <div class="security-card-title">
+                    🛡️ Cryptographic Protection
+                </div>
+
+
+                <div class="security-grid">
+
+                    <div>
+
+                        <strong>
+                            AES-256-GCM
+                        </strong>
+
+                        <span>
+                            Authenticated encryption
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            PBKDF2
+                        </strong>
+
+                        <span>
+                            SHA-256 key derivation
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            600,000
+                        </strong>
+
+                        <span>
+                            Password iterations
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Random Salt
+                        </strong>
+
+                        <span>
+                            Unique encryption data
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- STATUS -->
+
+    <div class="status-container">
+
+        <div
+            class="status-message"
+            id="statusMessage">
+
+            Ready to protect your text.
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HOW IT WORKS -->
+
+    <section class="how-section">
+
+        <div class="section-heading">
+
+            <h2>
+                How It <span>Works</span>
+            </h2>
+
+            <p>
+                Your text passes through multiple
+                cryptographic protection steps.
+            </p>
+
+        </div>
+
+
+        <div class="process">
+
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    01
+                </span>
+
+                <div class="process-icon">
+                    📝
+                </div>
+
+                <h3>
+                    Your Text
+                </h3>
+
+                <p>
+                    Enter or upload the text
+                    you want to protect.
+                </p>
+
+            </div>
+
+
+            <div class="process-arrow">
+                →
+            </div>
+
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    02
+                </span>
+
+                <div class="process-icon">
+                    🧂
+                </div>
+
+                <h3>
+                    Random Salt
+                </h3>
+
+                <p>
+                    A unique random salt is
+                    generated for encryption.
+                </p>
+
+            </div>
+
+
+            <div class="process-arrow">
+                →
+            </div>
+
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    03
+                </span>
+
+                <div class="process-icon">
+                    🔑
+                </div>
+
+                <h3>
+                    PBKDF2
+                </h3>
+
+                <p>
+                    Your password is transformed
+                    into a secure encryption key.
+                </p>
+
+            </div>
+
+
+            <div class="process-arrow">
+                →
+            </div>
+
+
+            <div class="process-card">
+
+                <span class="process-number">
+                    04
+                </span>
+
+                <div class="process-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    AES-GCM
+                </h3>
+
+                <p>
+                    AES-256-GCM encrypts and
+                    authenticates your data.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- FEATURES -->
+
+    <section class="features-section">
+
+        <div class="section-heading">
+
+            <h2>
+                Built for <span>Security</span>
+            </h2>
+
+            <p>
+                Simple tools backed by modern
+                cryptographic techniques.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Strong Encryption
+                </h3>
+
+                <p>
+                    AES-256-GCM provides
+                    authenticated encryption
+                    for your text.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🔑
+                </div>
+
+                <h3>
+                    Password Based
+                </h3>
+
+                <p>
+                    PBKDF2-HMAC-SHA256 derives
+                    a secure key from your password.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📁
+                </div>
+
+                <h3>
+                    File Support
+                </h3>
+
+                <p>
+                    Encrypt and decrypt
+                    .txt and .enc files
+                    directly through the interface.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ✨
+                </div>
+
+                <h3>
+                    Simple Interface
+                </h3>
+
+                <p>
+                    A clean and responsive interface
+                    makes secure text protection easy.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="footer-brand">
+            🔐 CryptText
+        </div>
+
+        <p>
+            A Python Flask cybersecurity mini-project
+        </p>
+
+        <p>
+            Secure your text with modern encryption.
+        </p>
+
+    </footer>
+
+
+
+    <script>
+
+        let currentOperation = "";
+
+
+        /* ELEMENTS */
+
+        const inputBox =
+            document.getElementById("inputText");
+
+        const resultBox =
+            document.getElementById("resultText");
+
+        const passwordBox =
+            document.getElementById("password");
+
+        const resultOverlay =
+            document.getElementById("resultOverlay");
+
+        const statusMessage =
+            document.getElementById("statusMessage");
+
+
+
+        /* CHARACTER COUNT */
+
+        function updateCharacterCount() {
+
+            const count =
+                inputBox.value.length;
+
+            document.getElementById(
+                "characterCount"
+            ).textContent =
+                count + " characters";
+
+        }
+
+
+
+        /* PASSWORD STRENGTH */
+
+        function checkPasswordStrength() {
+
+            const password =
+                passwordBox.value;
+
+            const fill =
+                document.getElementById(
+                    "strengthFill"
+                );
+
+            const text =
+                document.getElementById(
+                    "strengthText"
+                );
+
+
+            if (!password) {
+
+                fill.style.width = "0%";
+
+                text.textContent =
+                    "Enter a password";
+
+                return;
+            }
+
+
+            let score = 0;
+
+            let suggestions = [];
+
+
+            if (password.length >= 8) {
+
+                score++;
+
+            } else {
+
+                suggestions.push(
+                    "use at least 8 characters"
+                );
+
+            }
+
+
+            if (password.length >= 12) {
+
+                score++;
+
+            }
+
+
+            if (/[a-z]/.test(password)) {
+
+                score++;
+
+            } else {
+
+                suggestions.push(
+                    "add lowercase letters"
+                );
+
+            }
+
+
+            if (/[A-Z]/.test(password)) {
+
+                score++;
+
+            } else {
+
+                suggestions.push(
+                    "add uppercase letters"
+                );
+
+            }
+
+
+            if (/[0-9]/.test(password)) {
+
+                score++;
+
+            } else {
+
+                suggestions.push(
+                    "add numbers"
+                );
+
+            }
+
+
+            if (/[^A-Za-z0-9]/.test(password)) {
+
+                score++;
+
+            } else {
+
+                suggestions.push(
+                    "add a special character"
+                );
+
+            }
+
+
+            if (score <= 2) {
+
+                fill.style.width = "35%";
+
+
+                if (suggestions.length > 0) {
+
+                    text.textContent =
+                        "Weak password • " +
+                        suggestions
+                            .slice(0, 2)
+                            .join(", ");
+
+                } else {
+
+                    text.textContent =
+                        "Weak password";
+
+                }
+
+            }
+
+
+            else if (score <= 4) {
+
+                fill.style.width = "70%";
+
+
+                if (suggestions.length > 0) {
+
+                    text.textContent =
+                        "Good password • " +
+                        suggestions[0];
+
+                } else {
+
+                    text.textContent =
+                        "Good password";
+
+                }
+
+            }
+
+
+            else {
+
+                fill.style.width = "100%";
+
+                text.textContent =
+                    "Strong password ✓";
+
+            }
+
+        }
+
+
+
+        /* PASSWORD VISIBILITY */
+
+        function togglePassword() {
+
+            if (
+                passwordBox.type ===
+                "password"
+            ) {
+
+                passwordBox.type =
+                    "text";
+
+            } else {
+
+                passwordBox.type =
+                    "password";
+
+            }
+
+        }
+
+
+
+        /* ENCRYPT */
+
+        async function encryptText() {
+
+            const text =
+                inputBox.value.trim();
+
+            const password =
+                passwordBox.value;
+
+
+            if (!text || !password) {
+
+                showStatus(
+                    "Please enter text and password.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            currentOperation =
+                "encrypt";
+
+
+            showStatus(
+                "Encrypting your text...",
+                ""
+            );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/encrypt",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                text: text,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success) {
+
+                    throw new Error(
+                        data.message
+                    );
+
+                }
+
+
+                resultBox.value =
+                    data.result;
+
+
+                resultOverlay.style.display =
+                    "none";
+
+
+                showStatus(
+                    "Text encrypted successfully.",
+                    "success"
+                );
+
+            }
+
+
+            catch (error) {
+
+                showStatus(
+                    error.message ||
+                    "Encryption failed.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+
+        /* DECRYPT */
+
+        async function decryptText() {
+
+            const text =
+                inputBox.value.trim();
+
+            const password =
+                passwordBox.value;
+
+
+            if (!text || !password) {
+
+                showStatus(
+                    "Please enter encrypted text and password.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            currentOperation =
+                "decrypt";
+
+
+            showStatus(
+                "Decrypting and verifying data...",
+                ""
+            );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/decrypt",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                text: text,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success) {
+
+                    throw new Error(
+                        data.message
+                    );
+
+                }
+
+
+                resultBox.value =
+                    data.result;
+
+
+                resultOverlay.style.display =
+                    "none";
+
+
+                showStatus(
+                    "Decryption successful. Integrity verified.",
+                    "success"
+                );
+
+            }
+
+
+            catch (error) {
+
+                showStatus(
+                    error.message ||
+                    "Decryption failed.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+
+        /* COPY RESULT */
+
+        async function copyResult() {
+
+            const text =
+                resultBox.value;
+
+
+            if (!text) {
+
+                showStatus(
+                    "There is no result to copy.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    text
+                );
+
+
+                showStatus(
+                    "Result copied to clipboard.",
+                    "success"
+                );
+
+            }
+
+
+            catch (error) {
+
+                showStatus(
+                    "Unable to copy result.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+
+        /* DOWNLOAD */
+
+        async function downloadResult() {
+
+            const text =
+                resultBox.value;
+
+
+            if (!text) {
+
+                showStatus(
+                    "There is no result to save.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            let filename =
+                "encrypted_text.enc";
+
+
+            if (
+                currentOperation ===
+                "decrypt"
+            ) {
+
+                filename =
+                    "decrypted_text.txt";
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/download",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                text: text,
+                                filename: filename
+                            })
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const data =
+                        await response.json();
+
+                    throw new Error(
+                        data.message
+                    );
+
+                }
+
+
+                const blob =
+                    await response.blob();
+
+
+                const url =
+                    window.URL.createObjectURL(
+                        blob
+                    );
+
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                link.href = url;
+
+                link.download =
+                    filename;
+
+
+                document.body.appendChild(
+                    link
+                );
+
+
+                link.click();
+
+
+                link.remove();
+
+
+                window.URL.revokeObjectURL(
+                    url
+                );
+
+
+                showStatus(
+                    "File downloaded successfully.",
+                    "success"
+                );
+
+            }
+
+
+            catch (error) {
+
+                showStatus(
+                    error.message ||
+                    "Download failed.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+
+        /* CLEAR */
+
+        function clearAll() {
+
+            inputBox.value = "";
+
+            resultBox.value = "";
+
+            passwordBox.value = "";
+
+            currentOperation = "";
+
+
+            resultOverlay.style.display =
+                "flex";
+
+
+            updateCharacterCount();
+
+            checkPasswordStrength();
+
+
+            showStatus(
+                "Workspace cleared.",
+                ""
+            );
+
+        }
+
+
+
+        /* STATUS */
+
+        function showStatus(
+            message,
+            type
+        ) {
+
+            statusMessage.textContent =
+                message;
+
+
+            statusMessage.className =
+                "status-message";
+
+
+            if (type) {
+
+                statusMessage.classList.add(
+                    type
+                );
+
+            }
+
+        }
+
+
+
+        /* FILE UPLOAD */
+
+        const fileInput =
+            document.getElementById(
+                "fileInput"
+            );
+
+
+        const uploadArea =
+            document.getElementById(
+                "uploadArea"
+            );
+
+
+        fileInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    this.files[0];
+
+                if (file) {
+
+                    readFile(file);
+
+                }
+
+            }
+        );
+
+
+
+        function readFile(file) {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    inputBox.value =
+                        event.target.result;
+
+
+                    updateCharacterCount();
+
+
+                    showStatus(
+                        file.name +
+                        " loaded successfully.",
+                        "success"
+                    );
+
+                };
+
+
+            reader.onerror =
+                function () {
+
+                    showStatus(
+                        "Unable to read the file.",
+                        "error"
+                    );
+
+                };
+
+
+            reader.readAsText(file);
+
+        }
+
+
+
+        /* DRAG AND DROP */
+
+        uploadArea.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+                uploadArea.classList.add(
+                    "dragging"
+                );
+
+            }
+        );
+
+
+        uploadArea.addEventListener(
+            "dragleave",
+            function () {
+
+                uploadArea.classList.remove(
+                    "dragging"
+                );
+
+            }
+        );
+
+
+        uploadArea.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+
+                uploadArea.classList.remove(
+                    "dragging"
+                );
+
+
+                const file =
+                    event.dataTransfer.files[0];
+
+
+                if (!file) {
+
+                    return;
+
+                }
+
+
+                const fileName =
+                    file.name.toLowerCase();
+
+
+                if (
+                    !fileName.endsWith(".txt") &&
+                    !fileName.endsWith(".enc")
+                ) {
+
+                    showStatus(
+                        "Only .txt and .enc files are supported.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                readFile(file);
+
+            }
+        );
+
+
+
+        /* THEME */
+
+        function toggleTheme() {
+
+            document.body.classList.toggle(
+                "light-theme"
+            );
+
+
+            const button =
+                document.getElementById(
+                    "themeButton"
+                );
+
+
+            if (
+                document.body.classList.contains(
+                    "light-theme"
+                )
+            ) {
+
+                button.textContent =
+                    "☀️";
+
+
+                localStorage.setItem(
+                    "theme",
+                    "light"
+                );
+
+            } else {
+
+                button.textContent =
+                    "🌙";
+
+
+                localStorage.setItem(
+                    "theme",
+                    "dark"
+                );
+
+            }
+
+        }
+
+
+
+        /* LOAD SAVED THEME */
+
+        window.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                const savedTheme =
+                    localStorage.getItem(
+                        "theme"
+                    );
+
+
+                if (
+                    savedTheme ===
+                    "light"
+                ) {
+
+                    document.body.classList.add(
+                        "light-theme"
+                    );
+
+
+                    document.getElementById(
+                        "themeButton"
+                    ).textContent =
+                        "☀️";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
